@@ -38,7 +38,7 @@ GithubAccount = "JingPSE"
 GithubAnsibleURL = "https://github.com/JingPSE/ansible".format(GithubAccount)
 
 AnsiblePullCmd = \
-    "/usr/local/bin/ansible-pull -U {} {}.yml -i localhost".format(
+    "sudo /usr/local/bin/ansible-pull -U {} {}.yml -i localhost".format(
         GithubAnsibleURL,
         ApplicationName
     )
@@ -77,10 +77,15 @@ t.add_resource(ec2.SecurityGroup(
 
 ud = Base64(Join('\n', [
     "#!/bin/bash",
+    "sudo yum -y update",
+    "sudo yum -y install java-1.8.0",
+    "sudo yum -y remove java-1.7.0-openjdk",
+    "curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash -",
+    "sudo yum -y install nodejs",
     "yum install --enablerepo=epel -y git",
     "pip install ansible",
     AnsiblePullCmd,
-    "echo '*/10 * * * * root {}' > /etc/cron.d/ansible-pull".format(AnsiblePullCmd)
+    "echo '*/5 * * * * root {}' > /etc/cron.d/ansible-pull".format(AnsiblePullCmd)
 ]))
 
 t.add_resource(Role(
