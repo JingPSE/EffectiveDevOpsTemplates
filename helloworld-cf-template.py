@@ -47,6 +47,17 @@ t.add_resource(ec2.SecurityGroup(
             CidrIp="0.0.0.0/0",
         ),
     ],
+    Tags=[
+        {
+            'Key': 'costcenter',
+            'Value': '1223'
+        },
+        {
+            'Key': 'workorder',
+            'Value': '92008998'
+        },
+         ],    
+
 ))
 
 ud = Base64(Join('\n', [
@@ -64,6 +75,16 @@ t.add_resource(ec2.Instance(
     SecurityGroups=[Ref("SecurityGroup")],
     KeyName=Ref("KeyPair"),
     UserData=ud,
+    Tags=[
+        {
+            'Key': 'costcenter',
+            'Value': '1223'
+        },
+        {
+            'Key': 'workorder',
+            'Value': '92008998'
+        },
+        ],
 ))
 
 t.add_output(Output(
