@@ -78,6 +78,7 @@ t.add_resource(ec2.SecurityGroup(
 ud = Base64(Join('\n', [
     "#!/bin/bash",
     "sudo yum -y update",
+    "sudo yum install ruby",
     "sudo yum -y install java-1.8.0",
     "sudo yum -y remove java-1.7.0-openjdk",
     "curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash -",
